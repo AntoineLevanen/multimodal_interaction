@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE grammar PUBLIC "-//W3C//DTD GRAMMAR 1.0//EN"
+                "grammar.dtd">
+<!-- the default grammar language is FR  -->
+<grammar  version="1.0"
+          mode ="voice"
+          xmlns="http://www.w3.org/2001/06/grammar"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.w3.org/2001/06/grammar
+                              grammar.xsd"
+          xml:lang="fr-FR" root="answer" tag-format="semantics/1.0">
+          
+   <rule id="answer" scope="public"> 
+    <ruleref special="GARBAGE" /> 
+    <one-of>
+      <item><ruleref uri="#yes"/>
+          <tag>out="action=YES";</tag></item>
+      <item><ruleref uri="#no"/>
+      <tag>out="action=NO";</tag></item>
+    </one-of>
+    <ruleref special="GARBAGE" />
+  </rule>
+
+  <rule id="commande" scope="public">
+    <ruleref special="GARBAGE" />
+      <one-of>
+        <item><ruleref uri="#dessert"/>
+          <tag>out="action=DESSERT";</tag>
+        <item>
+        <item><ruleref uri="#boisson"/>
+          <tag>out="action=BOISSON";</tag>
+        <item>
+        <item><ruleref uri="#boisson"/>
+          <tag>out="action=BOISSON";</tag>
+        <item>
+      </one-of>
+    <ruleref special="GARBAGE" />
+  </rule>
+  
+  <rule id="yes">
+    <one-of>
+      <item>affirmatif</item>
+      <item>tout a fait</item>
+      <item>oui</item>
+    </one-of> 
+  </rule> 
+  <rule id="no">
+    <one-of>
+      <item>negatif</item>
+      <item>non</item>
+      <item>pas question</item>
+    </one-of>
+  </rule>
+  
+  <rule id="boisson">
+    <one-of>
+      <item>cafe</item>
+      <item>the</item>
+      <item>jus</item>
+    </one-of>
+  </rule>
+
+  <rule id="dessert">
+    <one-of>
+      <item>cafe</item>
+      <item>profiteroles</item>
+    </one-of>
+  </rule>
+
+
+</grammar>
