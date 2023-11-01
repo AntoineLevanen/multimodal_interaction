@@ -11,6 +11,12 @@ public class Recoparole{
   public static final int TEXTE = 2;
   public static final int CONCEPT = 3;
   public static final int NON_RECONNU = 4;
+  String forme;
+  String action;
+  String where;
+  String couleur;
+  String localisation;
+  String confidence;
   
   void setup(){
   f = loadFont("TwCenMT-Regular-24.vlw");
@@ -38,6 +44,12 @@ public class Recoparole{
       public void receive(IvyClient client,String[] args)
       {
         message = "Vous souhaitez " + args[0] + " un " + args[1];
+        action=args[0];
+        where=args[1];
+        forme=args[2];
+        couleur=args[3];
+        localisation=args[4];
+        //confidence=args[5];
         state = TEXTE;
       }        
     });
