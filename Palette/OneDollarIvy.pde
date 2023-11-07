@@ -1,6 +1,6 @@
 import fr.dgac.ivy.*;
 
-public class Recoparole{
+public class OneDollarIvy{
   Ivy bus;
   PFont f;
   String message= "";
@@ -12,10 +12,6 @@ public class Recoparole{
   public static final int CONCEPT = 3;
   public static final int NON_RECONNU = 4;
   String forme;
-  String action;
-  String where;
-  String couleur;
-  String localisation;
   String confidence;
   
   void setup(){
@@ -33,7 +29,7 @@ public class Recoparole{
     {
       public void receive(IvyClient client,String[] args)
       {
-        message = "Vous avez commander : " + args[0];
+        message = "Vous avez dessiner : " + args[0];
         state = TEXTE;
       }        
     });

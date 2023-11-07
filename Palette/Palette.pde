@@ -10,12 +10,19 @@ import java.awt.Point;
 ArrayList<Forme> formes; // liste de formes stockées
 FSM mae; // Finite Sate Machine
 int indice_forme;
+int Nb_forme;
 PImage sketch_icon;
 
 Recoparole reco_parole = new Recoparole();
 
-
-void setup() {
+public  final color RED = color(255,0,0);
+  public  final color ORANGE = color(255,180,0);
+  public  final color YELLOW = color(255,255,0);
+  public  final color GREEN = color(0,255,0);
+  public  final color BLUE = color(0,0,255);
+  public  final color PURPLE = color(255,0,255);
+  public final color DARK = color(255,255,255);
+void setup() { 
   reco_parole.setup();
   size(800,600);
   surface.setResizable(true);
@@ -28,12 +35,13 @@ void setup() {
   noStroke();
   mae = FSM.INITIAL;
   indice_forme = -1;
+  Nb_forme = -1;
 }
 
 void draw() {
   reco_parole.draw();
   background(0);
-  println("MAE : " + mae + " indice forme active ; " + indice_forme);
+  //println("MAE : " + mae + " indice forme active ; " + indice_forme);
   switch (mae) {
     case INITIAL:  // Etat INITIAL
       background(255);
@@ -99,35 +107,71 @@ void mousePressed() { // sur l'événement clic
 }
 
 
-void keyPressed() {
+void keyReleased() {
   Point p = new Point(mouseX,mouseY);
-  switch(key) {
-    case 'r':
+  if (key==' '){
+    
+    //switch forme
+   switch(reco_parole.forme) {
+    case "RECTANGLE":
       Forme f= new Rectangle(p);
       formes.add(f);
       mae=FSM.AFFICHER_FORMES;
+      Nb_forme=+1;
       break;
       
-    case 'c':
+    case "CIRCLE":
       Forme f2=new Cercle(p);
       formes.add(f2);
       mae=FSM.AFFICHER_FORMES;
+      Nb_forme=+1;
       break;
     
-    case 't':
+    case "TRIANGLE":
       Forme f3=new Triangle(p);
       formes.add(f3);
-       mae=FSM.AFFICHER_FORMES;
+      mae=FSM.AFFICHER_FORMES;
+      Nb_forme=+1;
       break;  
       
-    case 'l':
+    case "DIAMOND":
       Forme f4=new Losange(p);
       formes.add(f4);
       mae=FSM.AFFICHER_FORMES;
+      Nb_forme=+1;
       break;    
       
-    case 'm' : // move
-      mae=FSM.DEPLACER_FORMES_SELECTION;
+    default:
       break;
+    }
+    
+  //switch color
+  switch(reco_parole.couleur) {
+    case "RED":
+      (formes.get(formes.size()-1)).setColor(RED);
+      break;
+      
+    case "ORANGE":
+       (formes.get(formes.size()-1)).setColor(ORANGE);
+      break;
+    
+    case "YELLOW":
+       (formes.get(formes.size()-1)).setColor(YELLOW);
+      break;
+    case "GREEN":
+       (formes.get(formes.size()-1)).setColor(GREEN);
+      break;   
+    case "BLUE":
+       (formes.get(formes.size()-1)).setColor(BLUE);
+      break;
+    case "PURPLE":
+       (formes.get(formes.size()-1)).setColor(PURPLE);
+      break;
+    case "DARK":
+       (formes.get(formes.size()-1)).setColor(DARK);
+      break;
+    default:
+      break;
+    }
   }
 }
