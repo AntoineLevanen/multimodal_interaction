@@ -16,12 +16,13 @@ PImage sketch_icon;
 Recoparole reco_parole = new Recoparole();
 
 public  final color RED = color(255,0,0);
-  public  final color ORANGE = color(255,180,0);
-  public  final color YELLOW = color(255,255,0);
-  public  final color GREEN = color(0,255,0);
-  public  final color BLUE = color(0,0,255);
-  public  final color PURPLE = color(255,0,255);
-  public final color DARK = color(255,255,255);
+public  final color ORANGE = color(255,180,0);
+public  final color YELLOW = color(255,255,0);
+public  final color GREEN = color(0,255,0);
+public  final color BLUE = color(0,0,255);
+public  final color PURPLE = color(255,0,255);
+public final color DARK = color(255,255,255);
+
 void setup() { 
   reco_parole.setup();
   size(800,600);
@@ -42,6 +43,7 @@ void draw() {
   reco_parole.draw();
   background(0);
   //println("MAE : " + mae + " indice forme active ; " + indice_forme);
+  Point p = new Point(mouseX,mouseY);
   switch (mae) {
     case INITIAL:  // Etat INITIAL
       background(255);
@@ -53,6 +55,15 @@ void draw() {
       
     case AFFICHER_FORMES:  // 
     case DEPLACER_FORMES_SELECTION: 
+      for (int i=0;i<formes.size();i++) { // we're trying every object in the list        
+          if ((formes.get(i)).isClicked(p)) {
+            indice_forme = i;
+            mae = FSM.DEPLACER_FORMES_DESTINATION;
+          }         
+       }
+       if (indice_forme == -1)
+         mae= FSM.AFFICHER_FORMES;
+       break;
     case DEPLACER_FORMES_DESTINATION: 
       affiche();
       break;   
@@ -84,15 +95,7 @@ void mousePressed() { // sur l'événement clic
       break;
       
    case DEPLACER_FORMES_SELECTION:
-     for (int i=0;i<formes.size();i++) { // we're trying every object in the list        
-        if ((formes.get(i)).isClicked(p)) {
-          indice_forme = i;
-          mae = FSM.DEPLACER_FORMES_DESTINATION;
-        }         
-     }
-     if (indice_forme == -1)
-       mae= FSM.AFFICHER_FORMES;
-     break;
+     
      
    case DEPLACER_FORMES_DESTINATION:
      if (indice_forme !=-1)
@@ -106,13 +109,31 @@ void mousePressed() { // sur l'événement clic
   }
 }
 
-
 void keyReleased() {
   Point p = new Point(mouseX,mouseY);
   if (key==' '){
-    
-    //switch forme
-   switch(reco_parole.forme) {
+    println(reco_parole.action);
+    switch(reco_parole.action){ // we look at the action, CREATE, MOVE, ...       
+      case "CREATE":
+        addingShape(p); // function to add the shape with the specified color
+        println("Creating a shape");
+        break;
+          
+      case "MOVE": // we move a shape
+         mae = FSM.DEPLACER_FORMES_SELECTION;
+         println("Moving an object");
+         break;
+           
+       default:
+         println("no action reconized");
+         break;
+    }
+  }
+}
+
+void addingShape(Point p){
+  //switch forme
+  switch(reco_parole.forme) { // Draw shapes 
     case "RECTANGLE":
       Forme f= new Rectangle(p);
       formes.add(f);
@@ -142,11 +163,14 @@ void keyReleased() {
       break;    
       
     default:
+    println("no shape reconized");
       break;
-    }
-    
+  }
+  
+  if (formes.isEmpty()) return;
+  
   //switch color
-  switch(reco_parole.couleur) {
+  switch(reco_parole.couleur) { // adding color
     case "RED":
       (formes.get(formes.size()-1)).setColor(RED);
       break;
@@ -171,7 +195,7 @@ void keyReleased() {
        (formes.get(formes.size()-1)).setColor(DARK);
       break;
     default:
+      (formes.get(formes.size()-1)).setColor(DARK);
       break;
     }
-  }
 }
