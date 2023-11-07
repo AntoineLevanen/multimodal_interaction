@@ -21,44 +21,20 @@ public class OneDollarIvy{
   textFont(f,18);
   try
   {
-    bus = new Ivy("sra_tts_bridge", " sra_tts_bridge is ready", null);
+    bus = new Ivy("sra_tts_bridge2", " sra_tts_bridge2 is ready", null);
     bus.start("127.255.255.255:2010");
     
-    
-    bus.bindMsg("^sra5 Text=(.*) Confidence=.*", new IvyMessageListener()
+    bus.bindMsg("^OneDolarIvy Template=(.*)Confidence=(.*)", new IvyMessageListener()
     {
       public void receive(IvyClient client,String[] args)
       {
-        message = "Vous avez dessiner : " + args[0];
+        message = "Vous avez dessiné un " + args[0] ;
+        forme=args[0];
+        confidence=args[1];
         state = TEXTE;
       }        
     });
-    
-    
-    bus.bindMsg("^sra5 Parsed=action=(.*) where=(.*) form=(.*) color=(.*) localisation=(.*) Confidence=.*", new IvyMessageListener()
-    {
-      public void receive(IvyClient client,String[] args)
-      {
-        message = "Vous souhaitez " + args[0] + " un " + args[1];
-        action=args[0];
-        where=args[1];
-        forme=args[2];
-        couleur=args[3];
-        localisation=args[4];
-        //confidence=args[5];
-        state = TEXTE;
-      }        
-    });
-    
-
-    bus.bindMsg("^sra5 Event=Speech_Rejected", new IvyMessageListener()
-    {
-      public void receive(IvyClient client,String[] args)
-      {
-        message = "Malheureusement, je ne vous ai pas compris. Choisissez un dessert puis deux boisson";
-        state = NON_RECONNU;
-      }        
-    });    
+   
   }
   catch (IvyException ie)
   {
@@ -68,7 +44,7 @@ public class OneDollarIvy{
 void draw(){
   switch(state) {
     case INIT:
-      message = "Bonjour, que souhaitez vous commander?";
+      message = "Bonjour, que souhaitez vous dessiner?";
       try {
           bus.sendMsg("ppilot5 Say=" + message); 
       }
@@ -83,6 +59,7 @@ void draw(){
     case TEXTE :
       try {
           bus.sendMsg("ppilot5 Say=" + message); 
+          println("afifchage");
       }
       catch (IvyException e) {}
       state = ATTENTE;
@@ -91,7 +68,7 @@ void draw(){
      case CONCEPT:
        // Donne les elements prononce et le taux de confiance lors de la reco
        try {
-          bus.sendMsg("ppilot5 Say=" + message);
+          bus.sendMsg("ppilot5 Say= dollar ivy" + message);
           print(message);
        }
        catch (IvyException e) {}

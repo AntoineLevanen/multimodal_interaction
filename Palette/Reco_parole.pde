@@ -28,18 +28,8 @@ public class Recoparole{
     bus = new Ivy("sra_tts_bridge", " sra_tts_bridge is ready", null);
     bus.start("127.255.255.255:2010");
     
-    
-    bus.bindMsg("^sra5 Text=(.*) Confidence=.*", new IvyMessageListener()
-    {
-      public void receive(IvyClient client,String[] args)
-      {
-        message = "Vous avez commander : " + args[0];
-        state = TEXTE;
-      }        
-    });
-    
-    
-    bus.bindMsg("^sra5 Parsed=action=(.*) where=(.*) form=(.*) color=(.*) localisation=(.*) Confidence=.*", new IvyMessageListener()
+
+    bus.bindMsg("^sra5 Parsed=action=(.*) where=(.*) form=(.*) color=(.*) localisation=(.*) Confidence=(.*) NP=.*", new IvyMessageListener()
     {
       public void receive(IvyClient client,String[] args)
       {
@@ -49,7 +39,7 @@ public class Recoparole{
         forme=args[2];
         couleur=args[3];
         localisation=args[4];
-        //confidence=args[5];
+        confidence=args[5];
         state = TEXTE;
       }        
     });

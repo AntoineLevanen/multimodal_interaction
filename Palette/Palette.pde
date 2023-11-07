@@ -14,6 +14,7 @@ int Nb_forme;
 PImage sketch_icon;
 
 Recoparole reco_parole = new Recoparole();
+OneDollarIvy one_dollar = new OneDollarIvy();
 
 public  final color RED = color(255,0,0);
   public  final color ORANGE = color(255,180,0);
@@ -24,6 +25,7 @@ public  final color RED = color(255,0,0);
   public final color DARK = color(255,255,255);
 void setup() { 
   reco_parole.setup();
+  one_dollar.setup();
   size(800,600);
   surface.setResizable(true);
   surface.setTitle("Palette multimodale");
@@ -40,6 +42,7 @@ void setup() {
 
 void draw() {
   reco_parole.draw();
+  one_dollar.draw();
   background(0);
   //println("MAE : " + mae + " indice forme active ; " + indice_forme);
   switch (mae) {
