@@ -16,13 +16,13 @@ PImage sketch_icon;
 Recoparole reco_parole = new Recoparole();
 
 public  final color RED = color(255,0,0);
-  public  final color ORANGE = color(255,0,0);
-  public  final color YELLOW = color(255,0,0);
+  public  final color ORANGE = color(255,180,0);
+  public  final color YELLOW = color(255,255,0);
   public  final color GREEN = color(0,255,0);
   public  final color BLUE = color(0,0,255);
-  public  final color PURPLE = color(255,0,0);
+  public  final color PURPLE = color(255,0,255);
   public final color DARK = color(255,255,255);
-void setup() {
+void setup() { 
   reco_parole.setup();
   size(800,600);
   surface.setResizable(true);
