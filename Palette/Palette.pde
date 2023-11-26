@@ -22,7 +22,7 @@ public  final color RED = color(255,0,0);
   public  final color GREEN = color(0,255,0);
   public  final color BLUE = color(0,0,255);
   public  final color PURPLE = color(255,0,255);
-  public final color DARK = color(255,255,255);
+  public final color DARK = color(0,0,0);
   public final float seuil = 0.85;
   
   public String forme_current= null;
@@ -78,7 +78,7 @@ void draw() {
       break;  
       
     case ATTENTE:
-      if(reco_parole.received){ //<>//
+      if(reco_parole.received){
         mae=FSM.TRAITEMENT_PAROLE;
       }
       if(one_dollar.received){
@@ -96,7 +96,6 @@ void draw() {
        }
        else{
          if(reco_parole.action.equals("CREATE")){
-           print("go create");
          mae=FSM.VOC_CREATE;
        }
          else{
@@ -192,7 +191,7 @@ void draw() {
              reco_parole.nettoyer();
           }
           else{
-            forme_current=one_dollar.forme;
+             forme_current=one_dollar.forme;
              mae=FSM.ATTENTE_COMPLEMENT_PAROLE;
             println(mae);
           }
@@ -339,13 +338,12 @@ void create(Point p) {
       mae=FSM.AFFICHER_FORMES;
       Nb_forme=+1;
       break;    
-      
     default:
       break;
     }
     
   //switch color
-  switch(reco_parole.couleur) {
+  switch(reco_parole.couleur) { //<>//
     case "RED":
       (formes.get(formes.size()-1)).setColor(RED);
       break;
