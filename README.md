@@ -31,3 +31,8 @@ En pointant la forme à déplacer puis en pointant la nouvelle position (la form
 supprimer ça
 ```
 En pointant la forme à supprimer.
+
+## Fonctionnement
+
+La machine à état du système est représenté si dessous : <br />
+![My Image](Machine_a_etat_de_l_application.png)
