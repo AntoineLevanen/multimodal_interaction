@@ -59,8 +59,7 @@ void draw() {
       background(255);
       fill(0);
       text("Etat initial appuyer sur T pour commencer la reconnaisance vocale)", 50,50);
-      text("m(ove)+ click pour sélectionner un objet et click pour sa nouvelle position", 50,80);
-      text("click sur un objet pour changer sa couleur de manière aléatoire", 50,110);
+      text("click sur un objet pour changer sa couleur de manière aléatoire", 50,80);
       break;
       
     case AFFICHER_FORMES: 
