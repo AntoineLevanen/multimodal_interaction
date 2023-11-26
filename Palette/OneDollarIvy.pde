@@ -1,6 +1,6 @@
 import fr.dgac.ivy.*;
 
-public class Recoparole{
+public class OneDollarIvy{
   Ivy bus;
   PFont f;
   String message= "";
@@ -12,13 +12,8 @@ public class Recoparole{
   public static final int CONCEPT = 3;
   public static final int NON_RECONNU = 4;
   String forme;
-  String action;
-  String where;
-  String couleur;
-  String localisation;
   String confidence;
-  Boolean received = false;
-  Boolean hearing= false;
+  Boolean received =false;
   
   void setup(){
   f = loadFont("TwCenMT-Regular-24.vlw");
@@ -27,40 +22,21 @@ public class Recoparole{
   textFont(f,18);
   try
   {
-    bus = new Ivy("sra_tts_bridge", " sra_tts_bridge is ready", null);
+    bus = new Ivy("sra_tts_bridge2", " sra_tts_bridge2 is ready", null);
     bus.start("127.255.255.255:2010");
     
-
-    bus.bindMsg("^sra5 Parsed=action=(.*) where=(.*) form=(.*) color=(.*) localisation=(.*) Confidence=(.*) NP=.*", new IvyMessageListener()
+    bus.bindMsg("^OneDolarIvy Template=(.*) Confidence=(.*)", new IvyMessageListener()
     {
       public void receive(IvyClient client,String[] args)
       {
-        
-        if(hearing == true){
-           received=true;
-           message = "Vous souhaitez " + args[0] + " un " + args[1];
-          action=args[0];
-          where=args[1];
-          forme=args[2];
-          couleur=args[3];
-          localisation=args[4];
-          confidence=args[5];
-          state = TEXTE;
-          hearing=false;
-        }
-         
+        message = "Vous avez dessiné un " + args[0] ;
+        forme=args[0];
+        confidence=args[1];
+        state = TEXTE;
+        received=true;
       }        
     });
-    
-
-    bus.bindMsg("^sra5 Event=Speech_Rejected", new IvyMessageListener()
-    {
-      public void receive(IvyClient client,String[] args)
-      {
-        message = "Malheureusement, je ne vous ai pas compris.";
-        state = NON_RECONNU;
-      }        
-    });    
+   
   }
   catch (IvyException ie)
   {
@@ -70,7 +46,7 @@ public class Recoparole{
 void draw(){
   switch(state) {
     case INIT:
-      message = "Bonjour, que souhaitez vous dessiner  ?";
+      message = "Bonjour, que souhaitez vous dessiner?";
       try {
           bus.sendMsg("ppilot5 Say=" + message); 
       }
@@ -93,7 +69,7 @@ void draw(){
      case CONCEPT:
        // Donne les elements prononce et le taux de confiance lors de la reco
        try {
-          bus.sendMsg("ppilot5 Say=" + message);
+          bus.sendMsg("ppilot5 Say= dollar ivy" + message);
           print(message);
        }
        catch (IvyException e) {}
@@ -114,12 +90,9 @@ void draw(){
   text("** ETAT COURANT **", 20,20);
   text(state, 20, 50);
   }
- 
-void nettoyer(){
+ void nettoyer(){
   state = ATTENTE;
   received=false;
  
 }
-  
-  
 }
