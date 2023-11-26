@@ -17,6 +17,8 @@ public class Recoparole{
   String couleur;
   String localisation;
   String confidence;
+  Boolean received = false;
+  Boolean hearing= false;
   
   void setup(){
   f = loadFont("TwCenMT-Regular-24.vlw");
@@ -33,14 +35,20 @@ public class Recoparole{
     {
       public void receive(IvyClient client,String[] args)
       {
-        message = "Vous souhaitez " + args[0] + " un " + args[1];
-        action=args[0];
-        where=args[1];
-        forme=args[2];
-        couleur=args[3];
-        localisation=args[4];
-        confidence=args[5];
-        state = TEXTE;
+        
+        if(hearing == true){
+           received=true;
+           message = "Vous souhaitez " + args[0] + " un " + args[1];
+          action=args[0];
+          where=args[1];
+          forme=args[2];
+          couleur=args[3];
+          localisation=args[4];
+          confidence=args[5];
+          state = TEXTE;
+          hearing=false;
+        }
+         
       }        
     });
     
@@ -49,7 +57,7 @@ public class Recoparole{
     {
       public void receive(IvyClient client,String[] args)
       {
-        message = "Malheureusement, je ne vous ai pas compris. Choisissez un dessert puis deux boisson";
+        message = "Malheureusement, je ne vous ai pas compris.";
         state = NON_RECONNU;
       }        
     });    
@@ -62,7 +70,7 @@ public class Recoparole{
 void draw(){
   switch(state) {
     case INIT:
-      message = "Bonjour, que souhaitez vous commander?";
+      message = "Bonjour, que souhaitez vous dessiner  ?";
       try {
           bus.sendMsg("ppilot5 Say=" + message); 
       }
@@ -106,4 +114,12 @@ void draw(){
   text("** ETAT COURANT **", 20,20);
   text(state, 20, 50);
   }
+ 
+void nettoyer(){
+  state = ATTENTE;
+  received=false;
+ 
+}
+  
+  
 }

@@ -13,6 +13,7 @@ public class OneDollarIvy{
   public static final int NON_RECONNU = 4;
   String forme;
   String confidence;
+  Boolean received =false;
   
   void setup(){
   f = loadFont("TwCenMT-Regular-24.vlw");
@@ -24,7 +25,7 @@ public class OneDollarIvy{
     bus = new Ivy("sra_tts_bridge2", " sra_tts_bridge2 is ready", null);
     bus.start("127.255.255.255:2010");
     
-    bus.bindMsg("^OneDolarIvy Template=(.*)Confidence=(.*)", new IvyMessageListener()
+    bus.bindMsg("^OneDolarIvy Template=(.*) Confidence=(.*)", new IvyMessageListener()
     {
       public void receive(IvyClient client,String[] args)
       {
@@ -32,6 +33,7 @@ public class OneDollarIvy{
         forme=args[0];
         confidence=args[1];
         state = TEXTE;
+        received=true;
       }        
     });
    
@@ -59,7 +61,6 @@ void draw(){
     case TEXTE :
       try {
           bus.sendMsg("ppilot5 Say=" + message); 
-          println("afifchage");
       }
       catch (IvyException e) {}
       state = ATTENTE;
@@ -89,4 +90,9 @@ void draw(){
   text("** ETAT COURANT **", 20,20);
   text(state, 20, 50);
   }
+ void nettoyer(){
+  state = ATTENTE;
+  received=false;
+ 
+}
 }
